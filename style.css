@@ -1,0 +1,53 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0f2f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.painel-voo {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 350px;
+}
+
+.container-aviao {
+    margin: 20px 0;
+    transition: transform 0.5s ease; /* Animação suave */
+}
+
+/* Classe para animar o avião decolando */
+.voando {
+    transform: translateY(-50px) scale(1.1);
+    border: 2px solid #4caf50;
+    border-radius: 10px;
+}
+
+.info-voo p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.status-solo { color: #f44336; font-weight: bold; }
+.status-voo { color: #4caf50; font-weight: bold; }
+
+button {
+    background-color: #0277bd;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #01579b;
+}
