@@ -1,73 +1,99 @@
-// 1. Definição da Classe Voo
+// --- 1. A CLASSE MÃE (BASE PARA TODOS OS VOOS) ---
 class Voo {
     constructor(codigo, origem, destino) {
-        // Atributos (Características)
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
-        this.status = "No Solo";
         this.altitude = 0;
+        this.status = "No Pátio";
     }
 
-    // Método para atualizar a interface (DOM)
-    atualizarPainel() {
-        document.getElementById("txt-codigo").innerText = this.codigo;
-        document.getElementById("txt-origem").innerText = this.origem;
-        document.getElementById("txt-destino").innerText = this.destino;
-        document.getElementById("txt-status").innerText = this.status;
-        document.getElementById("txt-altitude").innerText = this.altitude;
-
-        const img = document.getElementById("img-aviao");
-        const txtStatus = document.getElementById("txt-status");
-
-        // Lógica visual baseada no estado do objeto
-        if (this.status === "Em Voo") {
-            img.classList.add("voando");
-            txtStatus.className = "status-voo";
-        } else {
-            img.classList.remove("voando");
-            txtStatus.className = "status-solo";
-        }
-    }
-
-    // Método para Decolar
     decolar() {
-        if (this.status === "No Solo") {
-            this.status = "Em Voo";
-            this.altitude = 500;
-            console.log(`Voo ${this.codigo} decolou com sucesso!`);
-            this.atualizarPainel();
-        } else {
-            alert("O avião já está no ar!");
-        }
+        this.status = "Em Voo";
+        this.altitude = 10000;
+        return `Voo ${this.codigo} decolou!`;
     }
 
-    // Método para Ganhar Altitude
-    ganharAltitude() {
-        if (this.status === "Em Voo") {
-            this.altitude += 1000;
-            console.log(`Altitude atual: ${this.altitude} pés.`);
-            this.atualizarPainel();
-        } else {
-            alert("O avião precisa decolar primeiro!");
-        }
-    }
-
-    // Método para Pousar
     pousar() {
-        if (this.status === "Em Voo") {
-            this.status = "No Solo";
-            this.altitude = 0;
-            console.log(`Voo ${this.codigo} pousou em ${this.destino}.`);
-            this.atualizarPainel();
-        } else {
-            alert("O avião já está no solo!");
-        }
+        this.status = "Pousado";
+        this.altitude = 0;
+        return `Voo ${this.codigo} pousou com segurança.`;
+    }
+
+    // Desafio de Polimorfismo: Cada um falará algo diferente
+    comunicarTorre() {
+        return `Torre, aqui é o voo ${this.codigo} solicitando instruções.`;
     }
 }
 
-// 2. Criando o Objeto (Instanciando a Classe)
-const meuVoo = new Voo("AD-2024", "São Paulo (GRU)", "Lisboa (LIS)");
+// --- 2. AS SUBCLASSES (HERANÇA) ---
 
-// 3. Inicializar o painel na tela
-meuVoo.atualizarPainel();
+// Jato Executivo herda de Voo
+class JatoExecutivo extends Voo {
+    constructor(codigo, origem, destino) {
+        super(codigo, origem, destino); // super() envia os dados para a classe Voo
+        this.modoSupersonico = false;
+    }
+
+    ativarSupersonico() {
+        this.modoSupersonico = true;
+        this.altitude = 50000;
+        return "Modo Supersônico ATIVADO! Quebrando a barreira do som.";
+    }
+
+    desativarSupersonico() {
+        this.modoSupersonico = false;
+        this.altitude = 10000;
+        return "Modo Supersônico desativado. Voltando à altitude normal.";
+    }
+
+    // Sobrescrevendo o método da torre (Polimorfismo)
+    comunicarTorre() {
+        return `Torre, voo VIP ${this.codigo} na escuta, prioridade de pouso!`;
+    }
+}
+
+// Voo de Carga herda de Voo
+class VooCarga extends Voo {
+    constructor(codigo, origem, destino, capacidadeMaxima) {
+        super(codigo, origem, destino);
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.cargaAtual = 0;
+    }
+
+    embarcarCarga(toneladas) {
+        if (this.cargaAtual + toneladas <= this.capacidadeMaxima) {
+            this.cargaAtual += toneladas;
+            return `Sucesso! ${toneladas}t embarcadas. Total: ${this.cargaAtual}t.`;
+        } else {
+            return `ERRO: Capacidade excedida! Máximo: ${this.capacidadeMaxima}t.`;
+        }
+    }
+
+    // Sobrescrevendo o método da torre (Polimorfismo)
+    comunicarTorre() {
+        return `Torre, cargueiro pesado ${this.codigo} se aproximando.`;
+    }
+}
+
+// --- 3. CRIANDO OS OBJETOS (INSTANCIAÇÃO) ---
+// Criamos um jato e um cargueiro específicos
+const meuJato = new JatoExecutivo("VIP-777", "Rio de Janeiro", "Nova York");
+const meuCargueiro = new VooCarga("CARGO-101", "Santos", "Lisboa", 50); // 50 toneladas de limite
+
+// --- 4. FUNÇÕES PARA A INTERFACE (DOM) ---
+// Essas funções ligam os botões do HTML com o código acima
+
+function acaoJato(comando) {
+    let mensagem = "";
+    if (comando === 'decolar') mensagem = meuJato.decolar();
+    if (comando === 'pousar') mensagem = meuJato.pousar();
+    if (comando === 'ativar') mensagem = meuJato.ativarSupersonico();
+    if (comando === 'desativar') mensagem = meuJato.desativarSupersonico();
+    if (comando === 'torre') mensagem = meuJato.comunicarTorre();
+
+    // Atualiza o HTML do Jato
+    document.getElementById('status-jato').innerText = meuJato.status;
+    document.getElementById('alt-jato').innerText = meuJato.altitude;
+    document.getElementById('modo-jato').innerText = meuJato.modoSupersonico
+    }

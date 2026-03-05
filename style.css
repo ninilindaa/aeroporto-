@@ -1,53 +1,68 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e0f2f1;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
-.painel-voo {
-    background-color: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 350px;
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 320px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-top: 8px solid;
 }
 
-.container-aviao {
-    margin: 20px 0;
-    transition: transform 0.5s ease; /* Animação suave */
+.jato { border-color: #ff00d4; } /* Dourado para VIP */
+.carga { border-color: #6b0eff; }    /* Cinza para Carga */
+
+.info {
+    text-align: left;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
-/* Classe para animar o avião decolando */
-.voando {
-    transform: translateY(-50px) scale(1.1);
-    border: 2px solid #4caf50;
-    border-radius: 10px;
-}
-
-.info-voo p {
-    margin: 10px 0;
-    font-size: 1.1em;
-}
-
-.status-solo { color: #f44336; font-weight: bold; }
-.status-voo { color: #4caf50; font-weight: bold; }
-
-button {
-    background-color: #0277bd;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    border-radius: 5px;
+.controles button {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
     cursor: pointer;
-    transition: background 0.3s;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    transition: 0.3s;
 }
 
-button:hover {
-    background-color: #01579b;
+.controles button:hover { background-color: #0056b3; }
+
+.btn-torre { background-color: #f07eff !important; }
+
+input {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#log-mensagens {
+    margin-top: 30px;
+    padding: 15px;
+    background: #333;
+    color: #00ff00;
+    border-radius: 8px;
+    display: inline-block;
+    min-width: 400px;
 }
