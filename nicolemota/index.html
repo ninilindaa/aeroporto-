@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>✨ Aeroporto ✨</title>
+    <style>
+        /* CSS CORRIGIDO */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff0f5; 
+            background-image: radial-gradient(#ffc0cb 0.5px, transparent 0.5px);
+            background-size: 20px 20px; 
+            color: #d63384;       
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-shadow: 2px 2px #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }  
+
+        .container {
+            display: flex; 
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 30px; 
+            padding: 25px;         
+            width: 320px;  
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.4);
+            border: 4px solid #ffc0cb;
+            transition: transform 0.3s ease;
+        }
+ 
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .jato { border-color: #ffb6c1; } 
+        .carga { border-color: #dda0dd; } 
+
+        h2 {
+            font-size: 1.5em;
+            color: #ff1493;
+            margin-top: 0;
+        }
+
+        .info {
+            text-align: left;
+            background: #fff5f8;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            border: 1px dashed #ffb6c1;
+        }
+
+        .info p {
+            margin: 8px 0;
+            font-weight: bold;
+        }
+
+        .controles button {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px; 
+            background: linear-gradient(to right, #ff99cc, #ffc0cb);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px #ff85b2;
+            transition: all 0.2s;
+        }
+
+        .controles button:active {
+            box-shadow: 0 0px #ff85b2;
+            transform: translateY(4px);
+        }
+
+        .btn-torre {
+            background: linear-gradient(to right, #b19cd9, #dda0dd) !important;
+            box-shadow: 0 4px #9370db !important;
+        }
+
+        input {
+            width: 85%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ffc0cb;
+            border-radius: 50px;
+            outline: none;
+            text-align: center;
+            color: #d63384;
+        }
+
+        #log-mensagens {
+            margin-top: 40px;
+            padding: 20px;
+            background: white;
+            color: #ff69b4;
+            border: 3px solid #ffc0cb;
+            border-radius: 25px;
+            display: inline-block;
+            min-width: 450px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎀 Aeroporto 🍓</h1>
+
+    <div class="container">
+        <!-- CARD DO JATO -->
+        <div class="card jato">
+            <h2>✨ Jato VIP: <span id="id-jato">---</span> ✨</h2>
+            <div class="info">
+                <p>Status: <span id="status-jato">No Pátio</span></p>
+                <p>Altitude: <span id="alt-jato">0</span> ft</p>
+                <p>Modo Turbo: <span id="modo-jato">DESATIVADO</span></p>
+            </div>
+            <div class="controles">
+                <button onclick="controlarJato('decolar')">🛫 Decolar</button>
+                <button onclick="controlarJato('pousar')">🛬 Pousar</button>
+                <button onclick="controlarJato('ativar')">🌈 Ativar Supersônico</button>
+                <button onclick="controlarJato('desativar')">🌸 Modo Normal</button>
+                <button class="btn-torre" onclick="controlarJato('torre')">☁️ Falar com a Torre</button>
+            </div>
+        </div>
+
+        <!-- CARD DO CARGA -->
+        <div class="card carga">
+            <h2>🧸 Voo de Carga: <span id="id-carga">---</span> 🧸</h2>
+            <div class="info">
+                <p>Status: <span id="status-carga">No Pátio</span></p>
+                <p>Carga: <span id="carga-info">0</span> / <span id="cap-max">0</span> Ton</p>
+            </div>
+            <div class="controles">
+                <input type="number" id="input-peso" placeholder="Quantas toneladas?">
+                <button onclick="controlarCarga('embarcar')">🎁 Embarcar Mimos</button>
+                <button onclick="controlarCarga('decolar')">🛫 Decolar</button>
+                <button onclick="controlarCarga('pousar')">🛬 Pousar</button>
+                <button class="btn-torre" onclick="controlarCarga('torre')">☁️ Falar com a Torre</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="log-mensagens">
+        <h3>💌 Recadinhos da Torre:</h3>
+        <p id="mensagem-texto">Pronta para o check-in? ✨</p>
+    </div>
+
+    <script>
+        class Voo {
+            constructor(codigo, origem, destino) {
+                this.codigo = codigo;
+                this.origem = origem;
+                this.destino = destino;
+                this.altitude = 0;
+                this.status = "No Pátio";
+            }
+            decolar() { 
+                this.status = "Nas Nuvens ☁️"; 
+                this.altitude = 10000; 
+                return `O voo ${this.codigo} saiu de ${this.origem} e está brilhando no céu!`; 
+            }
+            pousar() { 
+                this.status = "Descansando"; 
+                this.altitude = 0; 
+                return `O voo ${this.codigo} chegou em ${this.destino} com segurança! 💖`; 
+            }
+            comunicarTorre() { 
+                return `Oi Torre! Aqui é o voo ${this.codigo} pedindo licença! ✨`; 
+            }
+        }
+
+        class JatoExecutivo extends Voo {
+            constructor(codigo, origem, destino) {
+                super(codigo, origem, destino);
+                this.modoSupersonico = false;
+            }
+            ativarSupersonico() { 
+                this.modoSupersonico = true; 
+                this.altitude = 55000; 
+                return "🌈 UAU! Estamos quebrando a barreira do som com muito brilho!"; 
+            }
+            desativarSupersonico() { 
+                this.modoSupersonico = false; 
+                this.altitude = 10000; 
+                return "Voltando para a velocidade fofinha."; 
+            }
+            comunicarTorre() { 
+                return `Torre, o jato VIP ${this.codigo} quer pousar primeiro, tá bom? ✨`; 
+            }
+        }
+
+        class VooCarga extends Voo {
+            constructor(codigo, origem, destino, capacidadeMaxima) {
+                super(codigo, origem, destino);
+                this.capacidadeMaxima = capacidadeMaxima;
+                this.cargaAtual = 0;
+            }
+            embarcarCarga(toneladas) {
+                if (this.cargaAtual + toneladas <= this.capacidadeMaxima) {
+                    this.cargaAtual += toneladas;
+                    return `✅ Oba! ${toneladas}t de mimos embarcados com sucesso!`;
+                } else {
+                    return `❌ Poxa, ficou muito pesado! O limite é ${this.capacidadeMaxima}t.`;
+                }
+            }
+            comunicarTorre() { 
+                return `Torre, o cargueiro fofinho ${this.codigo} está chegando com encomendas! 📦`; 
+            }
+        }
+
+        const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
+        const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
+
+        window.onload = function() {
+            document.getElementById('id-jato').innerText = meuJato.codigo;
+            document.getElementById('id-carga').innerText = meuCargueiro.codigo;
+            document.getElementById('cap-max').innerText = meuCargueiro.capacidadeMaxima;
+        };
+
+        function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
+
+        function controlarJato(acao) {
+            if (acao === 'decolar') exibir(meuJato.decolar());
+            if (acao === 'pousar') { meuJato.modoSupersonico = false; exibir(meuJato.pousar()); }
+            if (acao === 'ativar') exibir(meuJato.ativarSupersonico());
+            if (acao === 'desativar') exibir(meuJato.desativarSupersonico());
+            if (acao === 'torre') exibir(meuJato.comunicarTorre());
+
+            document.getElementById('status-jato').innerText = meuJato.status;
+            document.getElementById('alt-jato').innerText = meuJato.altitude;
+            document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "ATIVADO 🌈" : "DESATIVADO";
+        }
+
+        function controlarCarga(acao) {
+            if (acao === 'embarcar') {
+                const peso = parseFloat(document.getElementById('input-peso').value);
+                if (!peso) {
+                    exibir("Digite um peso para embarcar! 🧸");
+                } else {
+                    exibir(meuCargueiro.embarcarCarga(peso));
+                    document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
+                }
+            }
+            if (acao === 'decolar') exibir(meuCargueiro.decolar());
+            if (acao === 'pousar') exibir(meuCargueiro.pousar());
+            if (acao === 'torre') exibir(meuCargueiro.comunicarTorre());
+
+            document.getElementById('status-carga').innerText = meuCargueiro.status;
+        }
+    </script>
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
