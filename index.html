@@ -2,15 +2,15 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>✨ Aeroporto ✨</title>
+    <title>✨ Aeroporto Inteligente - Segurança ✨</title>
     <style>
-        /* CSS PARA O VISUAL ROSA E FOFO */
+        /* CSS MANTIDO E ATUALIZADO */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fff0f5; /* Rosa lavanda bem clarinho */
+            background-color: #fff0f5; 
             background-image: radial-gradient(#ffc0cb 0.5px, transparent 0.5px);
-            background-size: 20px 20px; /* Pontinhos fofos no fundo */
-            color: #d63384;
+            background-size: 20px 20px; 
+            color: #d63384;       
             text-align: center;
             padding: 20px;
         }
@@ -20,10 +20,10 @@
             text-shadow: 2px 2px #ffffff;
             font-size: 2.5em;
             margin-bottom: 30px;
-        }
+        }  
 
         .container {
-            display: flex;
+            display: flex; 
             justify-content: center;
             gap: 25px;
             flex-wrap: wrap;
@@ -32,20 +32,21 @@
 
         .card {
             background: white;
-            border-radius: 30px; /* Bordas bem arredondadas */
-            padding: 25px;
-            width: 320px;
+            border-radius: 30px; 
+            padding: 25px;         
+            width: 320px;  
             box-shadow: 0 10px 20px rgba(255, 182, 193, 0.4);
             border: 4px solid #ffc0cb;
             transition: transform 0.3s ease;
         }
-
+ 
         .card:hover {
-            transform: translateY(-10px); /* Efeito de flutuar */
+            transform: translateY(-10px);
         }
 
         .jato { border-color: #ffb6c1; } 
-        .carga { border-color: #dda0dd; } /* Lilás para o cargueiro */
+        .carga { border-color: #dda0dd; } 
+        .seguro { border-color: #87ceeb; } /* Azul para o Voo Seguro */
 
         h2 {
             font-size: 1.5em;
@@ -67,14 +68,13 @@
             font-weight: bold;
         }
 
-        /* BOTÕES FOFINHOS */
         .controles button {
             width: 100%;
             padding: 12px;
             margin: 6px 0;
             cursor: pointer;
             border: none;
-            border-radius: 50px; /* Botões pílula */
+            border-radius: 50px; 
             background: linear-gradient(to right, #ff99cc, #ffc0cb);
             color: white;
             font-weight: bold;
@@ -88,14 +88,14 @@
             transform: translateY(4px);
         }
 
-        .controles button:hover {
-            filter: brightness(1.05);
-        }
-
-        /* Botão da torre em lilás fofo */
         .btn-torre {
             background: linear-gradient(to right, #b19cd9, #dda0dd) !important;
             box-shadow: 0 4px #9370db !important;
+        }
+
+        .btn-seguro {
+            background: linear-gradient(to right, #87ceeb, #add8e6) !important;
+            box-shadow: 0 4px #4682b4 !important;
         }
 
         input {
@@ -109,7 +109,6 @@
             color: #d63384;
         }
 
-        /* PAINEL DE MENSAGENS */
         #log-mensagens {
             margin-top: 40px;
             padding: 20px;
@@ -121,14 +120,6 @@
             min-width: 450px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-
-        #mensagem-texto {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        span { color: #ff1493; }
     </style>
 </head>
 <body>
@@ -168,6 +159,19 @@
                 <button class="btn-torre" onclick="controlarCarga('torre')">☁️ Falar com a Torre</button>
             </div>
         </div>
+
+        <!-- NOVO CARD: VOO SEGURO (CAIXA-PRETA) -->
+        <div class="card seguro">
+            <h2>🔒 Voo Seguro: <span id="id-seguro">---</span> 🔒</h2>
+            <div class="info">
+                <p id="painelCombustivel">Combustível: 100%</p>
+                <p>Nível de Segurança: <span style="color: green;">Máximo 🛡️</span></p>
+            </div>
+            <div class="controles">
+                <button class="btn-seguro" onclick="controlarSeguro('gastar')">✈️ Gastar Combustível (Voar)</button>
+                <button class="btn-seguro" onclick="controlarSeguro('abastecer')">⛽ Abastecer 10%</button>
+            </div>
+        </div>
     </div>
 
     <div id="log-mensagens">
@@ -176,7 +180,7 @@
     </div>
 
     <script>
-        // A LÓGICA CONTINUA IGUAL PARA O SEU PROFESSOR NÃO BRIGAR!
+        // --- CLASSES ANTERIORES ---
         class Voo {
             constructor(codigo, origem, destino) {
                 this.codigo = codigo;
@@ -239,19 +243,64 @@
             }
         }
 
-        // Instanciando os aviões
+        // --- NOVA CLASSE: VOO SEGURO (FASE 2) ---
+        class VooSeguro {
+            #codigo;
+            #combustivel;
+
+            constructor(codigoPassado) {
+                this.#codigo = codigoPassado;
+                this.#combustivel = 100;
+            }
+
+            get lerCombustivel() {
+                return `O tanque do voo ${this.#codigo} está em ${this.#combustivel}%`;
+            }
+
+            get apenasCodigo() {
+                return this.#codigo;
+            }
+
+            set abastecer(quantidade) {
+                if (quantidade < 0) {
+                    exibir("⚠️ Erro: Não é possível tirar combustível!");
+                } else if (this.#combustivel + quantidade > 100) {
+                    this.#combustivel = 100;
+                    exibir("⛽ Tanque lotado! Limite de 100% atingido.");
+                } else {
+                    this.#combustivel += quantidade;
+                    exibir(`⛽ Abastecido! Novo nível: ${this.#combustivel}%`);
+                }
+            }
+
+            set gastar(quantidade) {
+                if (this.#combustivel - quantidade < 0) {
+                    this.#combustivel = 0;
+                    exibir("⚠️ Atenção: Combustível esgotado! Pouse imediatamente!");
+                } else {
+                    this.#combustivel -= quantidade;
+                    exibir(`✈️ Voando... Nível de combustível: ${this.#combustivel}%`);
+                }
+            }
+        }
+
+        // --- INSTÂNCIAS ---
         const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
         const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
+        const meuVooSeguro = new VooSeguro("SAFE-001");
 
-        // Atualizando a tela inicial
+        // --- INICIALIZAÇÃO ---
         window.onload = function() {
             document.getElementById('id-jato').innerText = meuJato.codigo;
             document.getElementById('id-carga').innerText = meuCargueiro.codigo;
             document.getElementById('cap-max').innerText = meuCargueiro.capacidadeMaxima;
+            document.getElementById('id-seguro').innerText = meuVooSeguro.apenasCodigo;
+            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
         };
 
         function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
 
+        // --- FUNÇÕES DE CONTROLE ---
         function controlarJato(acao) {
             if (acao === 'decolar') exibir(meuJato.decolar());
             if (acao === 'pousar') { meuJato.modoSupersonico = false; exibir(meuJato.pousar()); }
@@ -261,19 +310,36 @@
 
             document.getElementById('status-jato').innerText = meuJato.status;
             document.getElementById('alt-jato').innerText = meuJato.altitude;
-            document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "SUPERSÔNICO 🌈" : "Normal";
+            document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "ATIVADO 🌈" : "DESATIVADO";
         }
 
         function controlarCarga(acao) {
+            if (acao === 'embarcar') {
+                const peso = parseFloat(document.getElementById('input-peso').value);
+                if (!peso) {
+                    exibir("Digite um peso para embarcar! 🧸");
+                } else {
+                    exibir(meuCargueiro.embarcarCarga(peso));
+                    document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
+                }
+            }
             if (acao === 'decolar') exibir(meuCargueiro.decolar());
             if (acao === 'pousar') exibir(meuCargueiro.pousar());
             if (acao === 'torre') exibir(meuCargueiro.comunicarTorre());
-            if (acao === 'embarcar') {
-                const peso = parseFloat(document.getElementById('input-peso').value);
-                exibir(meuCargueiro.embarcarCarga(peso || 0));
-            }
+
             document.getElementById('status-carga').innerText = meuCargueiro.status;
-            document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
+        }
+
+        // --- CONTROLE DO VOO SEGURO (FASE 3) ---
+        function controlarSeguro(acao) {
+            if (acao === 'abastecer') {
+                meuVooSeguro.abastecer = 10;
+            }
+            if (acao === 'gastar') {
+                meuVooSeguro.gastar = 15;
+            }
+            // Atualiza o painel usando o GETTER
+            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
         }
     </script>
 </body>
