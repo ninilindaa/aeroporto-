@@ -174,12 +174,47 @@
         </div>
     </div>
 
+     <div class="container">
+        <!-- MISSÃO PRÁTICA: REGISTRAR NOVO VOO -->
+        <div class="card missao">
+            <h2>🚨 Nova Rota 🚨</h2>
+            <div class="info">
+                <input type="text" id="novo-codigo" placeholder="Cód: Ex: G3-100">
+                <input type="text" id="nova-origem" placeholder="Cidade Origem">
+                <input type="text" id="novo-destino" placeholder="Cidade Destino">
+            </div>
+            <div class="controles">
+                <button id="btn-registrar" style="background: #ff1493;">✨ Registrar Voo e Decolar</button>
+            </div>
+        </div>
+
+        <!-- CARD DO STATUS DO VOO CRIADO -->
+        <div class="card">
+            <h2>📍 Status Atual</h2>
+            <div class="info">
+                <p>Voo: <span id="res-codigo">---</span></p>
+                <p>Rota: <span id="res-rota">---</span></p>
+                <p>Status: <span id="res-status">Aguardando...</span></p>
+            </div>
+        </div>
+    </div>
+
+
     <div id="log-mensagens">
         <h3>💌 Recadinhos da Torre:</h3>
         <p id="mensagem-texto">Pronta para o check-in? ✨</p>
     </div>
 
+
+
+
+
+
+
+
+    
     <script>
+    
         // --- CLASSES ANTERIORES ---
         class Voo {
             constructor(codigo, origem, destino) {
