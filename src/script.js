@@ -1,62 +1,32 @@
-// --- 1. A CLASSE MÃE (BASE PARA TODOS OS VOOS) ---
-class Voo {
-    constructor(codigo, origem, destino) {
-        this.codigo = codigo;
-        this.origem = origem;
-        this.destino = destino;
-        this.altitude = 0;
-        this.status = "No Pátio";
-    }
+// 1. IMPORTAÇÕES (Sempre na primeira linha)
+import Voo from './models/Voo.js';
+import Aeroporto from './models/Aeroporto.js';
 
-    decolar() {
-        this.status = "Em Voo";
-        this.altitude = 10000;
-        return `Voo ${this.codigo} decolou!`;
-    }
+// --- DESAFIO DO RADAR (T2.P1.A2) ---
+// Criando o aeroporto
+let aeroportoCWB = new Aeroporto("Afonso Pena");
 
-    pousar() {
-        this.status = "Pousado";
-        this.altitude = 0;
-        return `Voo ${this.codigo} pousou com segurança.`;
-    }
+// Criando os voos para o radar
+let voo1 = new Voo("G3-100", "São Paulo");
+let voo2 = new Voo("LA-200", "Rio de Janeiro");
 
-    // Desafio de Polimorfismo: Cada um falará algo diferente
-    comunicarTorre() {
-        return `Torre, aqui é o voo ${this.codigo} solicitando instruções.`;
-    }
-}
+// Testando o Desafio 1 (Adicionar ao radar)
+aeroportoCWB.adicionarVooNoRadar(voo1);
+aeroportoCWB.adicionarVooNoRadar(voo2);
 
-// --- 2. AS SUBCLASSES (HERANÇA) ---
+// Testando o Desafio 2 (Buscar no radar)
+console.log("--- BUSCANDO VOO NO RADAR ---");
+let vooAchado = aeroportoCWB.buscarVoo("LA-200");
+console.log(vooAchado); 
 
-// Jato Executivo herda de Voo
-class JatoExecutivo extends Voo {
-    constructor(codigo, origem, destino) {
-        super(codigo, origem, destino); // super() envia os dados para a classe Voo
-        this.modoSupersonico = false;
-    }
 
-    ativarSupersonico() {
-        this.modoSupersonico = true;
-        this.altitude = 50000;
-        return "Modo Supersônico ATIVADO! Quebrando a barreira do som.";
-    }
-
-    desativarSupersonico() {
-        this.modoSupersonico = false;
-        this.altitude = 10000;
-        return "Modo Supersônico desativado. Voltando à altitude normal.";
-    }
-
-    // Sobrescrevendo o método da torre (Polimorfismo)
-    comunicarTorre() {
-        return `Torre, voo VIP ${this.codigo} na escuta, prioridade de pouso!`;
-    }
-}
+// --- SUA LÓGICA DE CLASSES (HERANÇA) ---
 
 // Voo de Carga herda de Voo
 class VooCarga extends Voo {
     constructor(codigo, origem, destino, capacidadeMaxima) {
-        super(codigo, origem, destino);
+        super(codigo, destino); // Voo original recebe codigo e destino
+        this.origem = origem;
         this.capacidadeMaxima = capacidadeMaxima;
         this.cargaAtual = 0;
     }
@@ -70,19 +40,30 @@ class VooCarga extends Voo {
         }
     }
 
-    // Sobrescrevendo o método da torre (Polimorfismo)
     comunicarTorre() {
         return `Torre, cargueiro pesado ${this.codigo} se aproximando.`;
     }
 }
 
-// --- 3. CRIANDO OS OBJETOS (INSTANCIAÇÃO) ---
-// Criamos um jato e um cargueiro específicos
-const meuJato = new JatoExecutivo("VIP-777", "Rio de Janeiro", "Nova York");
-const meuCargueiro = new VooCarga("CARGO-101", "Santos", "Lisboa", 50); // 50 toneladas de limite
+// Simulando a classe JatoExecutivo (para não dar erro no seu acaoJato)
+class JatoExecutivo extends Voo {
+    constructor(codigo, destino) {
+        super(codigo, destino);
+        this.altitude = 0;
+        this.modoSupersonico = false;
+    }
+    decolar() { this.status = "Em voo"; this.altitude = 10000; return "Decolando..."; }
+    pousar() { this.status = "No solo"; this.altitude = 0; return "Pousando..."; }
+    ativarSupersonico() { this.modoSupersonico = true; return "Modo supersônico ATIVADO!"; }
+    desativarSupersonico() { this.modoSupersonico = false; return "Modo supersônico desativado."; }
+    comunicarTorre() { return "Jato executivo solicitando prioridade."; }
+}
 
-// --- 4. FUNÇÕES PARA A INTERFACE (DOM) ---
-// Essas funções ligam os botões do HTML com o código acima
+// INSTANCIAÇÃO
+const meuJato = new JatoExecutivo("VIP-777", "Nova York");
+const meuCargueiro = new VooCarga("CARGO-101", "Santos", "Lisboa", 50);
+
+// --- FUNÇÕES DE INTERFACE (DOM) ---
 
 function acaoJato(comando) {
     let mensagem = "";
@@ -92,8 +73,14 @@ function acaoJato(comando) {
     if (comando === 'desativar') mensagem = meuJato.desativarSupersonico();
     if (comando === 'torre') mensagem = meuJato.comunicarTorre();
 
-    // Atualiza o HTML do Jato
-    document.getElementById('status-jato').innerText = meuJato.status;
-    document.getElementById('alt-jato').innerText = meuJato.altitude;
-    document.getElementById('modo-jato').innerText = meuJato.modoSupersonico
-    }
+    // Atualiza o HTML (Garanta que esses IDs existam no seu index.html)
+    if(document.getElementById('status-jato')) document.getElementById('status-jato').innerText = meuJato.status;
+    if(document.getElementById('alt-jato')) document.getElementById('alt-jato').innerText = meuJato.altitude;
+    if(document.getElementById('modo-jato')) document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "Ativado" : "Desativado";
+    
+    console.log(mensagem);
+}
+
+// IMPORTANTE: Quando usamos type="module", as funções ficam "escondidas". 
+// Para o botão do HTML conseguir clicar nelas, precisamos anexá-las à janela (window):
+window.acaoJato = acaoJato;

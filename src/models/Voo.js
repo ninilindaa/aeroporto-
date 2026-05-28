@@ -13,3 +13,5 @@ export default class Voo {
         this.destino = destino;
     }
 }
+
+
