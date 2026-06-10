@@ -2,9 +2,11 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>✨ Aeroporto ✨</title>
+    <title>✨ Aeroporto Inteligente - Segurança ✨</title>
     <style>
-        /* CSS CORRIGIDO */
+        /* CSS MANTIDO E ATUALIZADO */
+
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #fff0f5; 
@@ -46,6 +48,7 @@
 
         .jato { border-color: #ffb6c1; } 
         .carga { border-color: #dda0dd; } 
+        .seguro { border-color: #87ceeb; } /* Azul para o Voo Seguro */
 
         h2 {
             font-size: 1.5em;
@@ -90,6 +93,11 @@
         .btn-torre {
             background: linear-gradient(to right, #b19cd9, #dda0dd) !important;
             box-shadow: 0 4px #9370db !important;
+        }
+
+        .btn-seguro {
+            background: linear-gradient(to right, #87ceeb, #add8e6) !important;
+            box-shadow: 0 4px #4682b4 !important;
         }
 
         input {
@@ -153,14 +161,63 @@
                 <button class="btn-torre" onclick="controlarCarga('torre')">☁️ Falar com a Torre</button>
             </div>
         </div>
+
+        <!-- NOVO CARD: VOO SEGURO (CAIXA-PRETA) -->
+        <div class="card seguro">
+            <h2>🔒 Voo Seguro: <span id="id-seguro">---</span> 🔒</h2>
+            <div class="info">
+                <p id="painelCombustivel">Combustível: 100%</p>
+                <p>Nível de Segurança: <span style="color: green;">Máximo 🛡️</span></p>
+            </div>
+            <div class="controles">
+                <button class="btn-seguro" onclick="controlarSeguro('gastar')">✈️ Gastar Combustível (Voar)</button>
+                <button class="btn-seguro" onclick="controlarSeguro('abastecer')">⛽ Abastecer 10%</button>
+            </div>
+        </div>
     </div>
+
+     <div class="container">
+        <!-- MISSÃO PRÁTICA: REGISTRAR NOVO VOO -->
+        <div class="card missao">
+            <h2>🚨 Nova Rota 🚨</h2>
+            <div class="info">
+                <input type="text" id="novo-codigo" placeholder="Cód: Ex: G3-100">
+                <input type="text" id="nova-origem" placeholder="Cidade Origem">
+                <input type="text" id="novo-destino" placeholder="Cidade Destino">
+            </div>
+            <div class="controles">
+                <button id="btn-registrar" style="background: #ff1493;">✨ Registrar Voo e Decolar</button>
+            </div>
+        </div>
+
+        <!-- CARD DO STATUS DO VOO CRIADO -->
+        <div class="card">
+            <h2>📍 Status Atual</h2>
+            <div class="info">
+                <p>Voo: <span id="res-codigo">---</span></p>
+                <p>Rota: <span id="res-rota">---</span></p>
+                <p>Status: <span id="res-status">Aguardando...</span></p>
+            </div>
+        </div>
+    </div>
+
 
     <div id="log-mensagens">
         <h3>💌 Recadinhos da Torre:</h3>
         <p id="mensagem-texto">Pronta para o check-in? ✨</p>
     </div>
 
+
+
+
+
+
+
+
+    
     <script>
+    
+        // --- CLASSES ANTERIORES ---
         class Voo {
             constructor(codigo, origem, destino) {
                 this.codigo = codigo;
@@ -223,17 +280,64 @@
             }
         }
 
+        // --- NOVA CLASSE: VOO SEGURO (FASE 2) ---
+        class VooSeguro {
+            #codigo;
+            #combustivel;
+
+            constructor(codigoPassado) {
+                this.#codigo = codigoPassado;
+                this.#combustivel = 100;
+            }
+
+            get lerCombustivel() {
+                return `O tanque do voo ${this.#codigo} está em ${this.#combustivel}%`;
+            }
+
+            get apenasCodigo() {
+                return this.#codigo;
+            }
+
+            set abastecer(quantidade) {
+                if (quantidade < 0) {
+                    exibir("⚠️ Erro: Não é possível tirar combustível!");
+                } else if (this.#combustivel + quantidade > 100) {
+                    this.#combustivel = 100;
+                    exibir("⛽ Tanque lotado! Limite de 100% atingido.");
+                } else {
+                    this.#combustivel += quantidade;
+                    exibir(`⛽ Abastecido! Novo nível: ${this.#combustivel}%`);
+                }
+            }
+
+            set gastar(quantidade) {
+                if (this.#combustivel - quantidade < 0) {
+                    this.#combustivel = 0;
+                    exibir("⚠️ Atenção: Combustível esgotado! Pouse imediatamente!");
+                } else {
+                    this.#combustivel -= quantidade;
+                    exibir(`✈️ Voando... Nível de combustível: ${this.#combustivel}%`);
+                }
+            }
+        }
+
+        // --- INSTÂNCIAS ---
         const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
         const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
+        const meuVooSeguro = new VooSeguro("SAFE-001");
 
+        // --- INICIALIZAÇÃO ---
         window.onload = function() {
             document.getElementById('id-jato').innerText = meuJato.codigo;
             document.getElementById('id-carga').innerText = meuCargueiro.codigo;
             document.getElementById('cap-max').innerText = meuCargueiro.capacidadeMaxima;
+            document.getElementById('id-seguro').innerText = meuVooSeguro.apenasCodigo;
+            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
         };
 
         function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
 
+        // --- FUNÇÕES DE CONTROLE ---
         function controlarJato(acao) {
             if (acao === 'decolar') exibir(meuJato.decolar());
             if (acao === 'pousar') { meuJato.modoSupersonico = false; exibir(meuJato.pousar()); }
@@ -262,7 +366,23 @@
 
             document.getElementById('status-carga').innerText = meuCargueiro.status;
         }
+
+        // --- CONTROLE DO VOO SEGURO (FASE 3) ---
+        function controlarSeguro(acao) {
+            if (acao === 'abastecer') {
+                meuVooSeguro.abastecer = 10;
+            }
+            if (acao === 'gastar') {
+                meuVooSeguro.gastar = 15;
+            }
+            // Atualiza o painel usando o GETTER
+            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
+        }
     </script>
-    <script type="module" src="src/main.js"></script>
+
+
+
 </body>
 </html>
+
+
