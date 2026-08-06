@@ -1,99 +1,111 @@
-// --- 1. A CLASSE MÃE (BASE PARA TODOS OS VOOS) ---
+// --- 1. CLASSES ---
 class Voo {
     constructor(codigo, origem, destino) {
         this.codigo = codigo;
         this.origem = origem;
-        this.destino = destino;
+        this.destino = destino || "Destino Não Informado";
         this.altitude = 0;
         this.status = "No Pátio";
     }
-
     decolar() {
-        this.status = "Em Voo";
+        this.status = "Nas Nuvens ☁️";
         this.altitude = 10000;
-        return `Voo ${this.codigo} decolou!`;
+        return `O voo ${this.codigo} saiu de ${this.origem} e está brilhando no céu!`;
     }
-
     pousar() {
-        this.status = "Pousado";
+        this.status = "Descansando";
         this.altitude = 0;
-        return `Voo ${this.codigo} pousou com segurança.`;
+        return `O voo ${this.codigo} chegou em ${this.destino} com segurança! 💖`;
     }
-
-    // Desafio de Polimorfismo: Cada um falará algo diferente
     comunicarTorre() {
-        return `Torre, aqui é o voo ${this.codigo} solicitando instruções.`;
+        return `Oi Torre! Aqui é o voo ${this.codigo} pedindo licença! ✨`;
     }
 }
 
-// --- 2. AS SUBCLASSES (HERANÇA) ---
-
-// Jato Executivo herda de Voo
 class JatoExecutivo extends Voo {
     constructor(codigo, origem, destino) {
-        super(codigo, origem, destino); // super() envia os dados para a classe Voo
+        super(codigo, origem, destino);
         this.modoSupersonico = false;
     }
-
     ativarSupersonico() {
         this.modoSupersonico = true;
-        this.altitude = 50000;
-        return "Modo Supersônico ATIVADO! Quebrando a barreira do som.";
+        this.altitude = 55000;
+        return "🌈 UAU! Estamos quebrando a barreira do som!";
     }
-
     desativarSupersonico() {
         this.modoSupersonico = false;
         this.altitude = 10000;
-        return "Modo Supersônico desativado. Voltando à altitude normal.";
-    }
-
-    // Sobrescrevendo o método da torre (Polimorfismo)
-    comunicarTorre() {
-        return `Torre, voo VIP ${this.codigo} na escuta, prioridade de pouso!`;
+        return "Voltando para a velocidade fofinha.";
     }
 }
 
-// Voo de Carga herda de Voo
 class VooCarga extends Voo {
     constructor(codigo, origem, destino, capacidadeMaxima) {
         super(codigo, origem, destino);
         this.capacidadeMaxima = capacidadeMaxima;
         this.cargaAtual = 0;
     }
-
     embarcarCarga(toneladas) {
         if (this.cargaAtual + toneladas <= this.capacidadeMaxima) {
             this.cargaAtual += toneladas;
-            return `Sucesso! ${toneladas}t embarcadas. Total: ${this.cargaAtual}t.`;
-        } else {
-            return `ERRO: Capacidade excedida! Máximo: ${this.capacidadeMaxima}t.`;
+            return `✅ Oba! ${toneladas}t de mimos embarcados!`;
         }
-    }
-
-    // Sobrescrevendo o método da torre (Polimorfismo)
-    comunicarTorre() {
-        return `Torre, cargueiro pesado ${this.codigo} se aproximando.`;
+        return `❌ Poxa, o limite é ${this.capacidadeMaxima}t.`;
     }
 }
 
-// --- 3. CRIANDO OS OBJETOS (INSTANCIAÇÃO) ---
-// Criamos um jato e um cargueiro específicos
-const meuJato = new JatoExecutivo("VIP-777", "Rio de Janeiro", "Nova York");
-const meuCargueiro = new VooCarga("CARGO-101", "Santos", "Lisboa", 50); // 50 toneladas de limite
+class VooSeguro {
+    #codigo; #combustivel;
+    constructor(codigo) { this.#codigo = codigo; this.#combustivel = 100; }
+    get lerCombustivel() { return `O tanque do voo ${this.#codigo} está em ${this.#combustivel}%`; }
+    get apenasCodigo() { return this.#codigo; }
+    set abastecer(q) { this.#combustivel = Math.min(100, this.#combustivel + q); }
+    set gastar(q) { this.#combustivel = Math.max(0, this.#combustivel - q); }
+}
 
-// --- 4. FUNÇÕES PARA A INTERFACE (DOM) ---
-// Essas funções ligam os botões do HTML com o código acima
+// --- 2. INSTÂNCIAS ---
+const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
+const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
+const meuVooSeguro = new VooSeguro("SAFE-001");
 
-function acaoJato(comando) {
-    let mensagem = "";
-    if (comando === 'decolar') mensagem = meuJato.decolar();
-    if (comando === 'pousar') mensagem = meuJato.pousar();
-    if (comando === 'ativar') mensagem = meuJato.ativarSupersonico();
-    if (comando === 'desativar') mensagem = meuJato.desativarSupersonico();
-    if (comando === 'torre') mensagem = meuJato.comunicarTorre();
+// --- 3. INICIALIZAÇÃO DA TELA ---
+window.onload = function() {
+    document.getElementById('id-jato').innerText = meuJato.codigo;
+    document.getElementById('id-carga').innerText = meuCargueiro.codigo;
+    document.getElementById('cap-max').innerText = meuCargueiro.capacidadeMaxima;
+    document.getElementById('id-seguro').innerText = meuVooSeguro.apenasCodigo;
+    document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
+};
 
-    // Atualiza o HTML do Jato
+// --- 4. FUNÇÕES DE CONTROLE (O que o HTML clica) ---
+function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
+
+window.controlarJato = function(acao) {
+    if (acao === 'decolar') exibir(meuJato.decolar());
+    if (acao === 'pousar') exibir(meuJato.pousar());
+    if (acao === 'ativar') exibir(meuJato.ativarSupersonico());
+    if (acao === 'desativar') exibir(meuJato.desativarSupersonico());
+    if (acao === 'torre') exibir(meuJato.comunicarTorre());
+
     document.getElementById('status-jato').innerText = meuJato.status;
     document.getElementById('alt-jato').innerText = meuJato.altitude;
-    document.getElementById('modo-jato').innerText = meuJato.modoSupersonico
+    document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "ATIVADO 🌈" : "DESATIVADO";
+}
+
+window.controlarCarga = function(acao) {
+    if (acao === 'embarcar') {
+        const peso = parseFloat(document.getElementById('input-peso').value);
+        exibir(meuCargueiro.embarcarCarga(peso || 0));
+        document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
     }
+    if (acao === 'decolar') exibir(meuCargueiro.decolar());
+    if (acao === 'pousar') exibir(meuCargueiro.pousar());
+    if (acao === 'torre') exibir(meuCargueiro.comunicarTorre());
+    document.getElementById('status-carga').innerText = meuCargueiro.status;
+}
+
+window.controlarSeguro = function(acao) {
+    if (acao === 'abastecer') meuVooSeguro.abastecer = 10;
+    if (acao === 'gastar') meuVooSeguro.gastar = 15;
+    document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
+}

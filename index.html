@@ -2,11 +2,9 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>✨ Aeroporto Inteligente - Segurança ✨</title>
+    <title>✨ Aeroporto Inteligente - Completo ✨</title>
     <style>
-        /* CSS MANTIDO E ATUALIZADO */
-
-        
+        /* MANTENDO SEU DESIGN ORIGINAL */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #fff0f5; 
@@ -42,19 +40,13 @@
             transition: transform 0.3s ease;
         }
  
-        .card:hover {
-            transform: translateY(-10px);
-        }
-
+        .card:hover { transform: translateY(-10px); }
         .jato { border-color: #ffb6c1; } 
         .carga { border-color: #dda0dd; } 
-        .seguro { border-color: #87ceeb; } /* Azul para o Voo Seguro */
+        .seguro { border-color: #87ceeb; }
+        .missao { border-color: #ff1493; }
 
-        h2 {
-            font-size: 1.5em;
-            color: #ff1493;
-            margin-top: 0;
-        }
+        h2 { font-size: 1.5em; color: #ff1493; margin-top: 0; }
 
         .info {
             text-align: left;
@@ -65,10 +57,7 @@
             border: 1px dashed #ffb6c1;
         }
 
-        .info p {
-            margin: 8px 0;
-            font-weight: bold;
-        }
+        .info p { margin: 8px 0; font-weight: bold; }
 
         .controles button {
             width: 100%;
@@ -85,20 +74,10 @@
             transition: all 0.2s;
         }
 
-        .controles button:active {
-            box-shadow: 0 0px #ff85b2;
-            transform: translateY(4px);
-        }
+        .controles button:active { transform: translateY(4px); box-shadow: 0 0px #ff85b2; }
 
-        .btn-torre {
-            background: linear-gradient(to right, #b19cd9, #dda0dd) !important;
-            box-shadow: 0 4px #9370db !important;
-        }
-
-        .btn-seguro {
-            background: linear-gradient(to right, #87ceeb, #add8e6) !important;
-            box-shadow: 0 4px #4682b4 !important;
-        }
+        .btn-torre { background: linear-gradient(to right, #b19cd9, #dda0dd) !important; box-shadow: 0 4px #9370db !important; }
+        .btn-seguro { background: linear-gradient(to right, #87ceeb, #add8e6) !important; box-shadow: 0 4px #4682b4 !important; }
 
         input {
             width: 85%;
@@ -106,9 +85,9 @@
             margin-bottom: 10px;
             border: 2px solid #ffc0cb;
             border-radius: 50px;
-            outline: none;
             text-align: center;
             color: #d63384;
+            outline: none;
         }
 
         #log-mensagens {
@@ -120,13 +99,12 @@
             border-radius: 25px;
             display: inline-block;
             min-width: 450px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
     </style>
 </head>
 <body>
 
-    <h1>🎀 Aeroporto 🍓</h1>
+    <h1>🎀 Aeroporto Inteligente 🍓</h1>
 
     <div class="container">
         <!-- CARD DO JATO -->
@@ -151,7 +129,7 @@
             <h2>🧸 Voo de Carga: <span id="id-carga">---</span> 🧸</h2>
             <div class="info">
                 <p>Status: <span id="status-carga">No Pátio</span></p>
-                <p>Carga: <span id="carga-info">0</span> / <span id="cap-max">0</span> Ton</p>
+                <p>Carga: <span id="carga-info">0</span> / <span id="cap-max">200</span> Ton</p>
             </div>
             <div class="controles">
                 <input type="number" id="input-peso" placeholder="Quantas toneladas?">
@@ -162,7 +140,7 @@
             </div>
         </div>
 
-        <!-- NOVO CARD: VOO SEGURO (CAIXA-PRETA) -->
+        <!-- CARD DO VOO SEGURO -->
         <div class="card seguro">
             <h2>🔒 Voo Seguro: <span id="id-seguro">---</span> 🔒</h2>
             <div class="info">
@@ -177,22 +155,22 @@
     </div>
 
      <div class="container">
-        <!-- MISSÃO PRÁTICA: REGISTRAR NOVO VOO -->
+        <!-- MISSÃO LOGBOOK -->
         <div class="card missao">
-            <h2>🚨 Nova Rota 🚨</h2>
+            <h2>🚨 Nova Rota (Logbook) 🚨</h2>
             <div class="info">
-                <input type="text" id="novo-codigo" placeholder="Cód: Ex: G3-100">
+                <input type="text" id="novo-codigo" placeholder="Cód: Ex: G3-777">
                 <input type="text" id="nova-origem" placeholder="Cidade Origem">
                 <input type="text" id="novo-destino" placeholder="Cidade Destino">
             </div>
             <div class="controles">
-                <button id="btn-registrar" style="background: #ff1493;">✨ Registrar Voo e Decolar</button>
+                <button id="btn-registrar" onclick="executarLogbook()" style="background: #ff1493;">💾 Salvar e Re-hidratar</button>
             </div>
         </div>
 
-        <!-- CARD DO STATUS DO VOO CRIADO -->
+        <!-- STATUS LOGBOOK -->
         <div class="card">
-            <h2>📍 Status Atual</h2>
+            <h2>📍 Status do Logbook</h2>
             <div class="info">
                 <p>Voo: <span id="res-codigo">---</span></p>
                 <p>Rota: <span id="res-rota">---</span></p>
@@ -201,44 +179,32 @@
         </div>
     </div>
 
-
     <div id="log-mensagens">
         <h3>💌 Recadinhos da Torre:</h3>
         <p id="mensagem-texto">Pronta para o check-in? ✨</p>
     </div>
 
-
-
-
-
-
-
-
-    
     <script>
-    
-        // --- CLASSES ANTERIORES ---
+        // --- 1. CLASSES ORIGINAIS ---
         class Voo {
             constructor(codigo, origem, destino) {
                 this.codigo = codigo;
                 this.origem = origem;
-                this.destino = destino;
+                this.destino = destino || "Destino Final";
                 this.altitude = 0;
-                this.status = "No Pátio";
+                this.status = "No Solo";
             }
             decolar() { 
-                this.status = "Nas Nuvens ☁️"; 
+                this.status = "Em Voo"; 
                 this.altitude = 10000; 
-                return `O voo ${this.codigo} saiu de ${this.origem} e está brilhando no céu!`; 
+                return `🛫 O voo ${this.codigo} decolou de ${this.origem}!`; 
             }
             pousar() { 
-                this.status = "Descansando"; 
+                this.status = "No Solo"; 
                 this.altitude = 0; 
-                return `O voo ${this.codigo} chegou em ${this.destino} com segurança! 💖`; 
+                return `🛬 O voo ${this.codigo} pousou em ${this.destino}.`; 
             }
-            comunicarTorre() { 
-                return `Oi Torre! Aqui é o voo ${this.codigo} pedindo licença! ✨`; 
-            }
+            comunicarTorre() { return `☁️ Torre, aqui é o voo ${this.codigo}!`; }
         }
 
         class JatoExecutivo extends Voo {
@@ -246,101 +212,47 @@
                 super(codigo, origem, destino);
                 this.modoSupersonico = false;
             }
-            ativarSupersonico() { 
-                this.modoSupersonico = true; 
-                this.altitude = 55000; 
-                return "🌈 UAU! Estamos quebrando a barreira do som com muito brilho!"; 
-            }
-            desativarSupersonico() { 
-                this.modoSupersonico = false; 
-                this.altitude = 10000; 
-                return "Voltando para a velocidade fofinha."; 
-            }
-            comunicarTorre() { 
-                return `Torre, o jato VIP ${this.codigo} quer pousar primeiro, tá bom? ✨`; 
-            }
+            ativarSupersonico() { this.modoSupersonico = true; this.altitude = 55000; return "🌈 MODO SUPERSÔNICO ATIVADO!"; }
+            desativarSupersonico() { this.modoSupersonico = false; this.altitude = 10000; return "Voltando ao modo normal."; }
+            comunicarTorre() { return `✨ Torre, Jato VIP ${this.codigo} solicita prioridade!`; }
         }
 
         class VooCarga extends Voo {
-            constructor(codigo, origem, destino, capacidadeMaxima) {
+            constructor(codigo, origem, destino, capacidade) {
                 super(codigo, origem, destino);
-                this.capacidadeMaxima = capacidadeMaxima;
+                this.capacidadeMaxima = capacidade;
                 this.cargaAtual = 0;
             }
-            embarcarCarga(toneladas) {
-                if (this.cargaAtual + toneladas <= this.capacidadeMaxima) {
-                    this.cargaAtual += toneladas;
-                    return `✅ Oba! ${toneladas}t de mimos embarcados com sucesso!`;
-                } else {
-                    return `❌ Poxa, ficou muito pesado! O limite é ${this.capacidadeMaxima}t.`;
+            embarcarCarga(ton) {
+                if (this.cargaAtual + ton <= this.capacidadeMaxima) {
+                    this.cargaAtual += ton;
+                    return `✅ ${ton}t de mimos embarcadas!`;
                 }
+                return `❌ Excesso de carga! Máximo ${this.capacidadeMaxima}t.`;
             }
-            comunicarTorre() { 
-                return `Torre, o cargueiro fofinho ${this.codigo} está chegando com encomendas! 📦`; 
-            }
+            comunicarTorre() { return `📦 Cargueiro ${this.codigo} transportando encomendas!`; }
         }
 
-        // --- NOVA CLASSE: VOO SEGURO (FASE 2) ---
         class VooSeguro {
-            #codigo;
-            #combustivel;
-
-            constructor(codigoPassado) {
-                this.#codigo = codigoPassado;
-                this.#combustivel = 100;
-            }
-
-            get lerCombustivel() {
-                return `O tanque do voo ${this.#codigo} está em ${this.#combustivel}%`;
-            }
-
-            get apenasCodigo() {
-                return this.#codigo;
-            }
-
-            set abastecer(quantidade) {
-                if (quantidade < 0) {
-                    exibir("⚠️ Erro: Não é possível tirar combustível!");
-                } else if (this.#combustivel + quantidade > 100) {
-                    this.#combustivel = 100;
-                    exibir("⛽ Tanque lotado! Limite de 100% atingido.");
-                } else {
-                    this.#combustivel += quantidade;
-                    exibir(`⛽ Abastecido! Novo nível: ${this.#combustivel}%`);
-                }
-            }
-
-            set gastar(quantidade) {
-                if (this.#combustivel - quantidade < 0) {
-                    this.#combustivel = 0;
-                    exibir("⚠️ Atenção: Combustível esgotado! Pouse imediatamente!");
-                } else {
-                    this.#combustivel -= quantidade;
-                    exibir(`✈️ Voando... Nível de combustível: ${this.#combustivel}%`);
-                }
-            }
+            #codigo; #combustivel;
+            constructor(c) { this.#codigo = c; this.#combustivel = 100; }
+            get lerCombustivel() { return `Tanque de ${this.#codigo}: ${this.#combustivel}%`; }
+            get apenasCodigo() { return this.#codigo; }
+            set abastecer(q) { this.#combustivel = Math.min(100, this.#combustivel + q); }
+            set gastar(q) { this.#combustivel = Math.max(0, this.#combustivel - q); }
         }
 
-        // --- INSTÂNCIAS ---
+        // --- 2. INSTÂNCIAS ---
         const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
         const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
         const meuVooSeguro = new VooSeguro("SAFE-001");
 
-        // --- INICIALIZAÇÃO ---
-        window.onload = function() {
-            document.getElementById('id-jato').innerText = meuJato.codigo;
-            document.getElementById('id-carga').innerText = meuCargueiro.codigo;
-            document.getElementById('cap-max').innerText = meuCargueiro.capacidadeMaxima;
-            document.getElementById('id-seguro').innerText = meuVooSeguro.apenasCodigo;
-            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
-        };
-
+        // --- 3. FUNÇÕES DE CONTROLE ---
         function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
 
-        // --- FUNÇÕES DE CONTROLE ---
         function controlarJato(acao) {
             if (acao === 'decolar') exibir(meuJato.decolar());
-            if (acao === 'pousar') { meuJato.modoSupersonico = false; exibir(meuJato.pousar()); }
+            if (acao === 'pousar') exibir(meuJato.pousar());
             if (acao === 'ativar') exibir(meuJato.ativarSupersonico());
             if (acao === 'desativar') exibir(meuJato.desativarSupersonico());
             if (acao === 'torre') exibir(meuJato.comunicarTorre());
@@ -352,37 +264,62 @@
 
         function controlarCarga(acao) {
             if (acao === 'embarcar') {
-                const peso = parseFloat(document.getElementById('input-peso').value);
-                if (!peso) {
-                    exibir("Digite um peso para embarcar! 🧸");
-                } else {
-                    exibir(meuCargueiro.embarcarCarga(peso));
-                    document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
-                }
+                const p = parseFloat(document.getElementById('input-peso').value) || 0;
+                exibir(meuCargueiro.embarcarCarga(p));
+                document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
             }
             if (acao === 'decolar') exibir(meuCargueiro.decolar());
             if (acao === 'pousar') exibir(meuCargueiro.pousar());
             if (acao === 'torre') exibir(meuCargueiro.comunicarTorre());
-
             document.getElementById('status-carga').innerText = meuCargueiro.status;
         }
 
-        // --- CONTROLE DO VOO SEGURO (FASE 3) ---
         function controlarSeguro(acao) {
-            if (acao === 'abastecer') {
-                meuVooSeguro.abastecer = 10;
-            }
-            if (acao === 'gastar') {
-                meuVooSeguro.gastar = 15;
-            }
-            // Atualiza o painel usando o GETTER
+            if (acao === 'abastecer') meuVooSeguro.abastecer = 10;
+            if (acao === 'gastar') { meuVooSeguro.gastar = 15; exibir("Voando com segurança... 🛡️"); }
             document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
         }
+
+        // --- 4. LÓGICA DO LOGBOOK (RE-HIDRATAÇÃO) ---
+        function executarLogbook() {
+            const cod = document.getElementById('novo-codigo').value;
+            const ori = document.getElementById('nova-origem').value;
+            const des = document.getElementById('novo-destino').value;
+
+            if (!cod || !ori) { alert("Preencha Código e Origem! ✨"); return; }
+
+            // 1. Cria objeto original (VIVO)
+            const vooOriginal = new Voo(cod, ori, des);
+            
+            // 2. Salva no disco (JSON - Mata o objeto)
+            localStorage.setItem("meuLogbook", JSON.stringify(vooOriginal));
+            
+            // 3. Lê do disco (Recupera o "Zumbi" sem métodos)
+            const dadosCrus = JSON.parse(localStorage.getItem("meuLogbook"));
+            console.log("Objeto do disco (sem métodos):", dadosCrus);
+
+            // 4. RE-HIDRATAÇÃO (Cura o objeto criando uma nova instância)
+            const vooHidratado = new Voo(dadosCrus.codigo, dadosCrus.origem, dadosCrus.destino);
+            vooHidratado.status = dadosCrus.status;
+
+            // 5. Agora o método decolar() funciona novamente!
+            const msg = vooHidratado.decolar();
+
+            // Atualiza tela
+            document.getElementById('res-codigo').innerText = vooHidratado.codigo;
+            document.getElementById('res-rota').innerText = `${vooHidratado.origem} ➡️ ${vooHidratado.destino}`;
+            document.getElementById('res-status').innerText = vooHidratado.status;
+            exibir("Logbook: " + msg);
+            console.log("✅ Objeto Re-hidratado com sucesso!");
+        }
+
+        // Inicializa dados na tela ao abrir
+        window.onload = () => {
+            document.getElementById('id-jato').innerText = meuJato.codigo;
+            document.getElementById('id-carga').innerText = meuCargueiro.codigo;
+            document.getElementById('id-seguro').innerText = meuVooSeguro.apenasCodigo;
+            document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
+        };
     </script>
-
-
-
 </body>
 </html>
-
-
