@@ -2,318 +2,367 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>✨ Aeroporto Inteligente - Completo ✨</title>
+    <title>🎀 Hello Kitty International Airport - Singleton Edition 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* MANTENDO SEU DESIGN ORIGINAL */
+        /* DESIGN CLASSY & CHIC (COQUETTE STYLE) */
+        :root {
+            --rosa-primario: #e292a0; 
+            --rosa-escuro: #b35e6c;   
+            --rosa-fundo: #fffafb;    
+            --texto: #5a3e43;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fff0f5; 
-            background-image: radial-gradient(#ffc0cb 0.5px, transparent 0.5px);
-            background-size: 20px 20px; 
-            color: #d63384;       
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--rosa-fundo);
+            background-image: linear-gradient(90deg, #fdf1f3 50%, transparent 50%);
+            background-size: 40px 40px;
+            color: var(--texto);
             text-align: center;
-            padding: 20px;
+            padding: 30px;
+            margin: 0;
         }
 
         h1 {
-            color: #ff69b4;
-            text-shadow: 2px 2px #ffffff;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-        }  
+            font-family: 'Playfair Display', serif;
+            color: var(--rosa-escuro);
+            font-size: 3em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-style: italic;
+            text-transform: lowercase;
+        }
+
+        .bow-divider {
+            font-size: 24px;
+            color: var(--rosa-primario);
+            margin-bottom: 40px;
+        }
+
+        .bow-divider::before, .bow-divider::after {
+            content: " ————— 🎀 ————— ";
+            letter-spacing: -2px;
+        }
 
         .container {
             display: flex; 
             justify-content: center;
             gap: 25px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
         .card {
             background: white;
-            border-radius: 30px; 
+            border-radius: 5px; 
             padding: 25px;         
-            width: 320px;  
-            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.4);
-            border: 4px solid #ffc0cb;
-            transition: transform 0.3s ease;
+            width: 300px;  
+            box-shadow: 0 15px 35px rgba(179, 94, 108, 0.1);
+            border-top: 5px solid var(--rosa-primario);
+            position: relative;
+            transition: all 0.4s ease;
         }
- 
-        .card:hover { transform: translateY(-10px); }
-        .jato { border-color: #ffb6c1; } 
-        .carga { border-color: #dda0dd; } 
-        .seguro { border-color: #87ceeb; }
-        .missao { border-color: #ff1493; }
 
-        h2 { font-size: 1.5em; color: #ff1493; margin-top: 0; }
+        .card::before {
+            content: "🎀";
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        h2 { 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em; 
+            color: var(--rosa-escuro); 
+            margin-top: 10px;
+            border-bottom: 1px double var(--rosa-primario);
+            padding-bottom: 10px;
+        }
 
         .info {
             text-align: left;
-            background: #fff5f8;
+            background: #fffcfd;
             padding: 15px;
-            border-radius: 20px;
             margin-bottom: 15px;
-            border: 1px dashed #ffb6c1;
+            border: 1px solid #f2e3e5;
         }
 
-        .info p { margin: 8px 0; font-weight: bold; }
+        .info p { margin: 8px 0; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;}
 
         .controles button {
             width: 100%;
-            padding: 12px;
-            margin: 6px 0;
+            padding: 10px;
+            margin: 5px 0;
             cursor: pointer;
-            border: none;
-            border-radius: 50px; 
-            background: linear-gradient(to right, #ff99cc, #ffc0cb);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px #ff85b2;
-            transition: all 0.2s;
+            border: 1px solid var(--rosa-primario);
+            border-radius: 2px; 
+            background: white;
+            color: var(--rosa-escuro);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            transition: all 0.3s;
         }
 
-        .controles button:active { transform: translateY(4px); box-shadow: 0 0px #ff85b2; }
-
-        .btn-torre { background: linear-gradient(to right, #b19cd9, #dda0dd) !important; box-shadow: 0 4px #9370db !important; }
-        .btn-seguro { background: linear-gradient(to right, #87ceeb, #add8e6) !important; box-shadow: 0 4px #4682b4 !important; }
+        .controles button:hover { background: var(--rosa-primario); color: white; }
 
         input {
             width: 85%;
-            padding: 10px;
+            padding: 8px;
             margin-bottom: 10px;
-            border: 2px solid #ffc0cb;
-            border-radius: 50px;
+            border: 1px solid #dcdcdc;
             text-align: center;
-            color: #d63384;
             outline: none;
         }
 
         #log-mensagens {
             margin-top: 40px;
-            padding: 20px;
+            padding: 25px;
             background: white;
-            color: #ff69b4;
-            border: 3px solid #ffc0cb;
-            border-radius: 25px;
+            color: var(--rosa-escuro);
+            border-left: 10px solid var(--rosa-primario);
             display: inline-block;
-            min-width: 450px;
+            min-width: 500px;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎀 Aeroporto Inteligente 🍓</h1>
+    <h1>hello kitty airport</h1>
+    <div class="bow-divider"></div>
 
     <div class="container">
-        <!-- CARD DO JATO -->
-        <div class="card jato">
-            <h2>✨ Jato VIP: <span id="id-jato">---</span> ✨</h2>
+        <!-- CARD DO JATO (COMPLETO) -->
+        <div class="card">
+            <h2> Jato VIP: <span id="id-jato">---</span></h2>
             <div class="info">
                 <p>Status: <span id="status-jato">No Pátio</span></p>
                 <p>Altitude: <span id="alt-jato">0</span> ft</p>
-                <p>Modo Turbo: <span id="modo-jato">DESATIVADO</span></p>
+                <p>Modo: <span id="modo-jato">Normal</span></p>
             </div>
             <div class="controles">
                 <button onclick="controlarJato('decolar')">🛫 Decolar</button>
-                <button onclick="controlarJato('pousar')">🛬 Pousar</button>
-                <button onclick="controlarJato('ativar')">🌈 Ativar Supersônico</button>
-                <button onclick="controlarJato('desativar')">🌸 Modo Normal</button>
-                <button class="btn-torre" onclick="controlarJato('torre')">☁️ Falar com a Torre</button>
+                <button onclick="controlarJato('pousar')">🛬 Pousar (Pedir Torre)</button>
+                <button onclick="controlarJato('ativar')">🌈 Supersônico</button>
+                <button onclick="controlarJato('desativar')">🌸 Normal</button>
+                <button onclick="controlarJato('torre')" style="border-color:#a394b5; color:#a394b5;">☁️ Falar com a Torre</button>
             </div>
         </div>
 
-        <!-- CARD DO CARGA -->
-        <div class="card carga">
-            <h2>🧸 Voo de Carga: <span id="id-carga">---</span> 🧸</h2>
+        <!-- CARD DO CARGA (COMPLETO) -->
+        <div class="card">
+            <h2>Carga: <span id="id-carga">---</span></h2>
             <div class="info">
                 <p>Status: <span id="status-carga">No Pátio</span></p>
-                <p>Carga: <span id="carga-info">0</span> / <span id="cap-max">200</span> Ton</p>
+                <p>Carga: <span id="carga-info">0</span> / 200 T</p>
             </div>
             <div class="controles">
-                <input type="number" id="input-peso" placeholder="Quantas toneladas?">
+                <input type="number" id="input-peso" placeholder="Toneladas?">
                 <button onclick="controlarCarga('embarcar')">🎁 Embarcar Mimos</button>
                 <button onclick="controlarCarga('decolar')">🛫 Decolar</button>
-                <button onclick="controlarCarga('pousar')">🛬 Pousar</button>
-                <button class="btn-torre" onclick="controlarCarga('torre')">☁️ Falar com a Torre</button>
+                <button onclick="controlarCarga('pousar')">🛬 Pousar (Pedir Torre)</button>
             </div>
         </div>
 
-        <!-- CARD DO VOO SEGURO -->
-        <div class="card seguro">
-            <h2>🔒 Voo Seguro: <span id="id-seguro">---</span> 🔒</h2>
+        <!-- CARD DO VOO SEGURO (COMPLETO) -->
+        <div class="card">
+            <h2>Voo Seguro: <span id="id-seguro">---</span></h2>
             <div class="info">
                 <p id="painelCombustivel">Combustível: 100%</p>
-                <p>Nível de Segurança: <span style="color: green;">Máximo 🛡️</span></p>
+                <p>Segurança: <span style="color: #b35e6c;">Máxima 🛡️</span></p>
             </div>
             <div class="controles">
-                <button class="btn-seguro" onclick="controlarSeguro('gastar')">✈️ Gastar Combustível (Voar)</button>
-                <button class="btn-seguro" onclick="controlarSeguro('abastecer')">⛽ Abastecer 10%</button>
+                <button onclick="controlarSeguro('gastar')">✈️ Voar (Gastar)</button>
+                <button onclick="controlarSeguro('abastecer')">⛽ Abastecer</button>
             </div>
         </div>
     </div>
 
-     <div class="container">
-        <!-- MISSÃO LOGBOOK -->
-        <div class="card missao">
-            <h2>🚨 Nova Rota (Logbook) 🚨</h2>
+    <div class="container" style="margin-top: 30px;">
+        <!-- MISSÃO LOGBOOK (RE-HIDRATAÇÃO) -->
+        <div class="card">
+            <h2>Logbook Rota</h2>
             <div class="info">
                 <input type="text" id="novo-codigo" placeholder="Cód: Ex: G3-777">
-                <input type="text" id="nova-origem" placeholder="Cidade Origem">
-                <input type="text" id="novo-destino" placeholder="Cidade Destino">
+                <input type="text" id="nova-origem" placeholder="Origem">
+                <input type="text" id="novo-destino" placeholder="Destino">
             </div>
-            <div class="controles">
-                <button id="btn-registrar" onclick="executarLogbook()" style="background: #ff1493;">💾 Salvar e Re-hidratar</button>
-            </div>
+            <button onclick="executarLogbook()" style="width:100%; padding:10px; background:var(--rosa-escuro); color:white; border:none; cursor:pointer;">💾 Salvar e Re-hidratar</button>
         </div>
 
         <!-- STATUS LOGBOOK -->
         <div class="card">
-            <h2>📍 Status do Logbook</h2>
+            <h2> Status Log</h2>
             <div class="info">
                 <p>Voo: <span id="res-codigo">---</span></p>
                 <p>Rota: <span id="res-rota">---</span></p>
-                <p>Status: <span id="res-status">Aguardando...</span></p>
+                <p>Status: <span id="res-status">---</span></p>
             </div>
+        </div>
+
+        <!-- CARD AUDITORIA SINGLETON -->
+        <div class="card" style="border-top-color: #a394b5;">
+            <h2>🗼 Torre Única</h2>
+            <div class="info">
+                <p>Pista: <span id="pista-status">Livre</span></p>
+                <p>Sincronia: <span id="sync-check">OK 🎀</span></p>
+            </div>
+            <button onclick="liberarPistaTorre()" style="width:100%; padding:10px; background:#a394b5; color:white; border:none; cursor:pointer;">✨ Liberar Pista</button>
         </div>
     </div>
 
     <div id="log-mensagens">
-        <h3>💌 Recadinhos da Torre:</h3>
-        <p id="mensagem-texto">Pronta para o check-in? ✨</p>
+        <h3>💌 Telex da Torre:</h3>
+        <p id="mensagem-texto">Aguardando instruções... ✨</p>
     </div>
 
     <script>
-        // --- 1. CLASSES ORIGINAIS ---
+        /* 
+        =========================================================
+        RELATÓRIO DE AUDITORIA (DESIGN PATTERN - SINGLETON)
+        1. O que o padrão Singleton garante?
+        R: Garante que o sistema tenha apenas uma instância da Torre de Controle, 
+           evitando que dois aviões ocupem a pista ao mesmo tempo.
+        2. O que 'static' faz?
+        R: Cria uma variável que pertence à classe, permitindo armazenar a instância única.
+        3. Como comprova?
+        R: Através da comparação torre1 === torre2 que sempre será verdadeira.
+        =========================================================
+        */
+
+        // --- CLASSE SINGLETON: TORRE DE CONTROLE ---
+        class TorreDeControle {
+            static instancia; 
+            constructor() {
+                if (TorreDeControle.instancia) return TorreDeControle.instancia;
+                this.pistaOcupada = false;
+                this.nomeDaTorre = "Royal Tower 🎀";
+                TorreDeControle.instancia = this;
+            }
+            autorizarPouso(voo) {
+                if (this.pistaOcupada) return `❌ [NEGADO] Voo ${voo}: Pista Ocupada!`;
+                this.pistaOcupada = true;
+                this.atualizarUI();
+                return `✅ [AUTORIZADO] Voo ${voo} pousando na ${this.nomeDaTorre}.`;
+            }
+            liberarPista() {
+                this.pistaOcupada = false;
+                this.atualizarUI();
+                return "✨ Pista Liberada!";
+            }
+            atualizarUI() { document.getElementById('pista-status').innerText = this.pistaOcupada ? "OCUPADA" : "Livre"; }
+        }
+
+        // --- CLASSES ORIGINAIS ---
         class Voo {
             constructor(codigo, origem, destino) {
-                this.codigo = codigo;
-                this.origem = origem;
-                this.destino = destino || "Destino Final";
-                this.altitude = 0;
-                this.status = "No Solo";
+                this.codigo = codigo; this.origem = origem; this.destino = destino || "Destino Final";
+                this.altitude = 0; this.status = "No Solo";
             }
-            decolar() { 
-                this.status = "Em Voo"; 
-                this.altitude = 10000; 
-                return `🛫 O voo ${this.codigo} decolou de ${this.origem}!`; 
-            }
-            pousar() { 
-                this.status = "No Solo"; 
-                this.altitude = 0; 
-                return `🛬 O voo ${this.codigo} pousou em ${this.destino}.`; 
-            }
+            decolar() { this.status = "Em Voo"; this.altitude = 10000; return `🛫 Voo ${this.codigo} decolou!`; }
+            pousar() { this.status = "No Solo"; this.altitude = 0; return `🛬 Voo ${this.codigo} pousou em ${this.destino}.`; }
             comunicarTorre() { return `☁️ Torre, aqui é o voo ${this.codigo}!`; }
         }
 
         class JatoExecutivo extends Voo {
-            constructor(codigo, origem, destino) {
-                super(codigo, origem, destino);
-                this.modoSupersonico = false;
-            }
-            ativarSupersonico() { this.modoSupersonico = true; this.altitude = 55000; return "🌈 MODO SUPERSÔNICO ATIVADO!"; }
-            desativarSupersonico() { this.modoSupersonico = false; this.altitude = 10000; return "Voltando ao modo normal."; }
-            comunicarTorre() { return `✨ Torre, Jato VIP ${this.codigo} solicita prioridade!`; }
+            constructor(codigo, origem, destino) { super(codigo, origem, destino); this.modoSupersonico = false; }
+            ativarSupersonico() { this.modoSupersonico = true; this.altitude = 55000; return "🌈 MODO SUPERSÔNICO!"; }
+            desativarSupersonico() { this.modoSupersonico = false; this.altitude = 10000; return "Modo Normal."; }
         }
 
         class VooCarga extends Voo {
-            constructor(codigo, origem, destino, capacidade) {
-                super(codigo, origem, destino);
-                this.capacidadeMaxima = capacidade;
-                this.cargaAtual = 0;
-            }
+            constructor(codigo, origem, destino, capacidade) { super(codigo, origem, destino); this.capacidadeMaxima = capacidade; this.cargaAtual = 0; }
             embarcarCarga(ton) {
-                if (this.cargaAtual + ton <= this.capacidadeMaxima) {
-                    this.cargaAtual += ton;
-                    return `✅ ${ton}t de mimos embarcadas!`;
-                }
-                return `❌ Excesso de carga! Máximo ${this.capacidadeMaxima}t.`;
+                if (this.cargaAtual + ton <= this.capacidadeMaxima) { this.cargaAtual += ton; return `✅ ${ton}t embarcadas!`; }
+                return "❌ Excesso!";
             }
-            comunicarTorre() { return `📦 Cargueiro ${this.codigo} transportando encomendas!`; }
         }
 
         class VooSeguro {
             #codigo; #combustivel;
             constructor(c) { this.#codigo = c; this.#combustivel = 100; }
-            get lerCombustivel() { return `Tanque de ${this.#codigo}: ${this.#combustivel}%`; }
+            get lerCombustivel() { return `Combustível: ${this.#combustivel}%`; }
             get apenasCodigo() { return this.#codigo; }
             set abastecer(q) { this.#combustivel = Math.min(100, this.#combustivel + q); }
             set gastar(q) { this.#combustivel = Math.max(0, this.#combustivel - q); }
         }
 
-        // --- 2. INSTÂNCIAS ---
-        const meuJato = new JatoExecutivo("VIP-PINK", "Paris", "Tóquio");
-        const meuCargueiro = new VooCarga("CANDY-77", "Brasil", "Disney", 200);
-        const meuVooSeguro = new VooSeguro("SAFE-001");
+        // INSTÂNCIAS
+        const meuJato = new JatoExecutivo( "Paris", "Tóquio");
+        const meuCargueiro = new VooCarga("Disney", 200);
+        const meuVooSeguro = new VooSeguro("classic safe");
 
-        // --- 3. FUNÇÕES DE CONTROLE ---
         function exibir(msg) { document.getElementById('mensagem-texto').innerText = msg; }
 
+        // CONTROLES
         function controlarJato(acao) {
+            const torre = new TorreDeControle();
             if (acao === 'decolar') exibir(meuJato.decolar());
-            if (acao === 'pousar') exibir(meuJato.pousar());
+            if (acao === 'pousar') {
+                const res = torre.autorizarPouso(meuJato.codigo);
+                if (res.includes("✅")) exibir(meuJato.pousar() + " | " + res);
+                else exibir(res);
+            }
             if (acao === 'ativar') exibir(meuJato.ativarSupersonico());
             if (acao === 'desativar') exibir(meuJato.desativarSupersonico());
             if (acao === 'torre') exibir(meuJato.comunicarTorre());
 
             document.getElementById('status-jato').innerText = meuJato.status;
             document.getElementById('alt-jato').innerText = meuJato.altitude;
-            document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "ATIVADO 🌈" : "DESATIVADO";
+            document.getElementById('modo-jato').innerText = meuJato.modoSupersonico ? "SUPERSÔNICO" : "Normal";
         }
 
         function controlarCarga(acao) {
+            const torre = new TorreDeControle();
             if (acao === 'embarcar') {
                 const p = parseFloat(document.getElementById('input-peso').value) || 0;
                 exibir(meuCargueiro.embarcarCarga(p));
                 document.getElementById('carga-info').innerText = meuCargueiro.cargaAtual;
             }
             if (acao === 'decolar') exibir(meuCargueiro.decolar());
-            if (acao === 'pousar') exibir(meuCargueiro.pousar());
-            if (acao === 'torre') exibir(meuCargueiro.comunicarTorre());
+            if (acao === 'pousar') {
+                const res = torre.autorizarPouso(meuCargueiro.codigo);
+                if (res.includes("✅")) exibir(meuCargueiro.pousar() + " | " + res);
+                else exibir(res);
+            }
             document.getElementById('status-carga').innerText = meuCargueiro.status;
         }
 
         function controlarSeguro(acao) {
             if (acao === 'abastecer') meuVooSeguro.abastecer = 10;
-            if (acao === 'gastar') { meuVooSeguro.gastar = 15; exibir("Voando com segurança... 🛡️"); }
+            if (acao === 'gastar') meuVooSeguro.gastar = 15;
             document.getElementById('painelCombustivel').innerText = meuVooSeguro.lerCombustivel;
         }
 
-        // --- 4. LÓGICA DO LOGBOOK (RE-HIDRATAÇÃO) ---
+        function liberarPistaTorre() { exibir(new TorreDeControle().liberarPista()); }
+
+        // LOGBOOK COM RE-HIDRATAÇÃO
         function executarLogbook() {
             const cod = document.getElementById('novo-codigo').value;
             const ori = document.getElementById('nova-origem').value;
             const des = document.getElementById('novo-destino').value;
+            if (!cod || !ori) return;
 
-            if (!cod || !ori) { alert("Preencha Código e Origem! ✨"); return; }
-
-            // 1. Cria objeto original (VIVO)
             const vooOriginal = new Voo(cod, ori, des);
-            
-            // 2. Salva no disco (JSON - Mata o objeto)
             localStorage.setItem("meuLogbook", JSON.stringify(vooOriginal));
-            
-            // 3. Lê do disco (Recupera o "Zumbi" sem métodos)
             const dadosCrus = JSON.parse(localStorage.getItem("meuLogbook"));
-            console.log("Objeto do disco (sem métodos):", dadosCrus);
-
-            // 4. RE-HIDRATAÇÃO (Cura o objeto criando uma nova instância)
+            
+            // RE-HIDRATAÇÃO
             const vooHidratado = new Voo(dadosCrus.codigo, dadosCrus.origem, dadosCrus.destino);
-            vooHidratado.status = dadosCrus.status;
+            exibir("Logbook: " + vooHidratado.decolar());
 
-            // 5. Agora o método decolar() funciona novamente!
-            const msg = vooHidratado.decolar();
-
-            // Atualiza tela
             document.getElementById('res-codigo').innerText = vooHidratado.codigo;
-            document.getElementById('res-rota').innerText = `${vooHidratado.origem} ➡️ ${vooHidratado.destino}`;
+            document.getElementById('res-rota').innerText = `${vooHidratado.origem} -> ${vooHidratado.destino}`;
             document.getElementById('res-status').innerText = vooHidratado.status;
-            exibir("Logbook: " + msg);
-            console.log("✅ Objeto Re-hidratado com sucesso!");
         }
 
-        // Inicializa dados na tela ao abrir
         window.onload = () => {
             document.getElementById('id-jato').innerText = meuJato.codigo;
             document.getElementById('id-carga').innerText = meuCargueiro.codigo;
